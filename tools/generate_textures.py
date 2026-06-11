@@ -19,19 +19,20 @@ OUTPUT_DIR = Path(__file__).resolve().parent.parent / "pack" / "assets" / "minec
 PACK_ICON = Path(__file__).resolve().parent.parent / "pack" / "pack.png"
 PREVIEW_PATH = Path(__file__).resolve().parent / "preview.png"
 
-# Speckle color (R, G, B) and glow/outline color per ore.
+# Per ore: "speckle" = ore body color, "outline" = colored outline on the
+# base texture (normal light), "glow" = emissive outline color in the dark.
 # Tweak these to adjust how each ore reads in-game.
 ORE_COLORS = {
-    "coal_ore":          {"speckle": (38, 38, 42),    "glow": (200, 200, 210)},
-    "iron_ore":          {"speckle": (216, 175, 147), "glow": (255, 230, 200)},
-    "copper_ore":        {"speckle": (224, 122, 80),  "glow": (255, 190, 130)},
-    "gold_ore":          {"speckle": (250, 210, 60),  "glow": (255, 255, 160)},
-    "redstone_ore":      {"speckle": (220, 30, 30),   "glow": (255, 110, 110)},
-    "lapis_ore":         {"speckle": (40, 80, 200),   "glow": (130, 180, 255)},
-    "diamond_ore":       {"speckle": (90, 230, 220),  "glow": (190, 255, 250)},
-    "emerald_ore":       {"speckle": (40, 200, 90),   "glow": (150, 255, 180)},
-    "nether_gold_ore":   {"speckle": (250, 210, 60),  "glow": (255, 255, 160)},
-    "nether_quartz_ore": {"speckle": (235, 230, 222), "glow": (255, 255, 255)},
+    "coal_ore":          {"speckle": (38, 38, 42),    "outline": (200, 200, 210), "glow": (250, 250, 250)},
+    "iron_ore":          {"speckle": (216, 175, 147), "outline": (255, 230, 200), "glow": (250, 250, 250)},
+    "copper_ore":        {"speckle": (224, 122, 80),  "outline": (255, 190, 130), "glow": (250, 250, 250)},
+    "gold_ore":          {"speckle": (250, 210, 60),  "outline": (255, 255, 160), "glow": (250, 250, 250)},
+    "redstone_ore":      {"speckle": (220, 30, 30),   "outline": (255, 110, 110), "glow": (250, 250, 250)},
+    "lapis_ore":         {"speckle": (40, 80, 200),   "outline": (130, 180, 255), "glow": (250, 250, 250)},
+    "diamond_ore":       {"speckle": (90, 230, 220),  "outline": (190, 255, 250), "glow": (250, 250, 250)},
+    "emerald_ore":       {"speckle": (40, 200, 90),   "outline": (150, 255, 180), "glow": (250, 250, 250)},
+    "nether_gold_ore":   {"speckle": (250, 210, 60),  "outline": (255, 255, 160), "glow": (250, 250, 250)},
+    "nether_quartz_ore": {"speckle": (235, 230, 222), "outline": (255, 255, 255), "glow": (250, 250, 250)},
 }
 
 OVERWORLD_ORES = [
@@ -135,8 +136,10 @@ def generate_texture(name, base, seed):
     chunks = ore_chunks(rng)
     mask = set().union(*chunks)
     # Bright high-contrast outline first, ore chunks drawn over the top.
+    # Base texture gets the ore's colored outline; the emissive layer gets
+    # the white glow color so ores read white in the dark.
     for x, y in outline_of(mask):
-        px[x, y] = colors["glow"]
+        px[x, y] = colors["outline"]
         gpx[x, y] = colors["glow"] + (255,)
     # 2-tone shading per chunk: one bright core pixel, slightly darker body.
     for chunk in chunks:
