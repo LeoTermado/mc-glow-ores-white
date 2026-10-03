@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate vanilla block model + blockstate JSONs for the emissive ores.
 
-Targets Minecraft Java 26.1.2 (pack format 84) native emissive support:
+Targets Minecraft Java 26.1 - 26.2 (pack formats 84-88) native emissive support:
 - Each model has two full-cube elements. The first uses the base ore texture
   and is lit normally. The second uses the <ore>_glow overlay texture and sets
   "light_emission": 15 (added in 1.21.2) so it renders fullbright, plus
