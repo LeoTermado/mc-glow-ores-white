@@ -15,7 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PACK_DIR = ROOT / "pack"
 DIST_DIR = ROOT / "dist"
-OUTPUT = DIST_DIR / "glow-ores-v1.0.0.zip"
+OUTPUT = DIST_DIR / "glow-ores-v1.0.1.zip"
 
 EXCLUDE_NAMES = {".DS_Store", "Thumbs.db"}
 EXCLUDE_DIRS = {"__pycache__"}
